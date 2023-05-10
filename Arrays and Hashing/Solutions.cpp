@@ -6,15 +6,13 @@
 
 // Contains Duplicate
 bool containsDuplicate(std::vector<int>& nums) {
-    std::unordered_map<int, int> num_map;
+    std::unordered_set<int> nums_set;
 
-    for(int i = 0; i < nums.size(); i++) {
-        num_map[nums[i]]++;
-    }
-    for(auto p : num_map) {
-        if(p.second > 1) {
+    for (int num : nums) {
+        if (nums_set.count(num) > 0) {
             return true;
-        }    
+        }
+        nums_set.insert(num);
     }
     return false;
 }
@@ -55,7 +53,34 @@ std::vector<int> twoSum(std::vector<int>& nums, int target) {
     return {};
 }
 
+/*
+ Given an array of strings strs, group the anagrams together. You can return the answer in any order.
+ An Anagram is a word or phrase formed by rearranging the letters of a different word or phrase,
+ typically using all the original letters exactly once. 
+*/
+std::vector<std::vector<std::string>> groupAnagrams(std::vector<std::string>& strs) {
+    std::vector<std::vector<std::string>> anagrams;
+    
+    std::unordered_map<std::string, std::vector<std::string>> sortedStringToAnagrams;
 
+    for(int i = 0; i < strs.size(); i++) {
+        std::string strCopy = strs[i];
+        std::sort(strCopy.begin(),strCopy.end());
+
+        if(!sortedStringToAnagrams.count(strCopy)) {
+            sortedStringToAnagrams.emplace(strCopy, std::vector<std::string>{strs[i]});
+        } else { // it's an anagram
+            sortedStringToAnagrams.at(strCopy).push_back(strs[i]);
+        }
+    }
+
+    for(auto& i : sortedStringToAnagrams) {
+        anagrams.push_back(i.second);
+    }
+
+    return anagrams;
+
+}
 
 
 int main() {
