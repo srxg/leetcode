@@ -1,8 +1,11 @@
 #include <iostream>
-#include <algorithm>
 #include <vector>
 #include <unordered_set>
 #include <unordered_map>
+#include <algorithm>
+#include <map>
+#include <stdlib.h>
+#include <queue>
 
 // Contains Duplicate
 bool containsDuplicate(std::vector<int>& nums) {
@@ -82,7 +85,42 @@ std::vector<std::vector<std::string>> groupAnagrams(std::vector<std::string>& st
 
 }
 
+/**
+ * TODO: 
+ * ? Something
+ * ! Something
+ * * Something else
+ * 
+*/
+std::vector<int> topKFrequent(std::vector<int>& nums, int k) {
+    std::map<int, int> hashmap;
+    std::vector<int> ans;
 
+    std::priority_queue<int> maxHeap;
+
+    for(auto& i : nums) {
+        hashmap[i]++;
+    }
+    
+    for(auto& i : hashmap) {
+        maxHeap.push(i.second);
+    }
+
+    while(k > 0) {
+        int countFreq = maxHeap.top();
+        maxHeap.pop();
+        for(auto& it : hashmap) {
+            if(countFreq == it.second) {
+                ans.push_back(it.first);
+                hashmap.erase(it.first);
+                --k;
+                break;
+            }
+        }
+    }
+
+    return ans;
+}
 int main() {
     std::vector<int> ex_nums = {1,2,2,3};
     std::cout << containsDuplicate(ex_nums) << std::endl;
