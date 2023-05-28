@@ -134,31 +134,26 @@ vector<int> productExceptSelf(vector<int>& nums) {
     // get array answer
     // so that answer[i] = product of all elements of nums
     // except nums[i]
-    vector<int> answer(nums.size());
-    map<int, int> indexToLeftProd;
-    // map<int, int[2]> indexToRightProduct;
-
+    int n = nums.size();
     int prod = 1;
+
+    vector<int> answer(n);
+    vector<int> indexToLeftProd(n);
+    // map<int, int[2]> indexToRightProduct;
     // get the left product of each index
-    for(int i = 0; i < nums.size(); i++) {
-        if(i != 0) prod *= nums[i-1];
-        indexToLeftProd[i] = prod;
+    indexToLeftProd[0] = 1;
+
+    for(int i = 1; i < n; i++) {
+        indexToLeftProd[i] = indexToLeftProd[i-1] * nums[i-1];
     }
 
-    prod = 1;
+    answer[n-1] = indexToLeftProd[n-1];
 
-    for(int i = nums.size()-1; i > -1; i--) {
-        if(i != nums.size()-1) prod *= nums[i+1];
+    for(int i = n-2; i > -1; i--) {
+        prod *= nums[i+1];
         answer[i] = indexToLeftProd[i]*prod;
     }
 
-    // for(int i = 0; i < nums.size(); i++) 
-    // {
-    //     int left = indexToLeftAndRightProduct.at(i)[0];
-    //     int right = indexToLeftAndRightProduct.at(i)[1];
-    //     std::cout << "For index i = " << std::to_string(i) << ", left product is = " << std::to_string(left) << " and right product is = " << std::to_string(right) << std::endl;
-    //     answer[i] = left*right;
-    // }
     return answer;
 }
 
