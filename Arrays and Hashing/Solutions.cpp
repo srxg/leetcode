@@ -129,24 +129,36 @@ std::vector<int> topKFrequent(std::vector<int>& nums, int k) {
  * apart from nums[i]
 */
 using namespace std;
-vector<int> productExceptionSelf(vector<int>& nums) {
-    int n = nums.size();
-    int prod = 1;
+vector<int> productExceptSelf(vector<int>& nums) {
+    // given nums
+    // get array answer
+    // so that answer[i] = product of all elements of nums
+    // except nums[i]
+    vector<int> answer(nums.size());
+    map<int, int[2]> indexToLeftAndRightProduct;
+    // map<int, int[2]> indexToRightProduct;
 
-    vector<int> answer(n);
-    // product of an empty set is 1
-    // (left product = 1 for no elements to right of ind 0)
-    answer[0] = 1;
-
-    for(int i = 1; i < n; i++) {
-        answer[i] = answer[i-1] * nums[i-1];
+    int leftProduct = 1;
+    int rightProduct = 1;
+    
+    // get the left product of each index
+    for(int i = 0; i < nums.size(); i++) {
+        if(i != 0) leftProduct *= nums[i-1];
+        indexToLeftAndRightProduct[i][0] = leftProduct;
     }
 
-    for(int i = n-2; i > -1; i--) {
-        prod *= nums[i+1];
-        answer[i] *= prod;
+    for(int i = nums.size()-1; i > -1; i--) {
+        if(i != nums.size()-1) rightProduct *= nums[i+1];
+        indexToLeftAndRightProduct[i][1] = rightProduct;
     }
 
+    for(int i = 0; i < nums.size(); i++) 
+    {
+        int left = indexToLeftAndRightProduct.at(i)[0];
+        int right = indexToLeftAndRightProduct.at(i)[1];
+        std::cout << "For index i = " << std::to_string(i) << ", left product is = " << std::to_string(left) << " and right product is = " << std::to_string(right) << std::endl;
+        answer[i] = left*right;
+    }
     return answer;
 }
 
