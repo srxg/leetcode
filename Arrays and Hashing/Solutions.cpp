@@ -157,7 +157,7 @@ int longestConsecutive(vector<int>& nums) {
             int currentNum = num;
             int currentStreak = 1;
 
-            while (numAsSet.count(currentNum + 1)) {
+            while (numAsSet.count(currentNum++)) {
                 currentNum++;
                 currentStreak++;
             }
