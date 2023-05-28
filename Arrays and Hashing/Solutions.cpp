@@ -130,33 +130,23 @@ std::vector<int> topKFrequent(std::vector<int>& nums, int k) {
 */
 using namespace std;
 vector<int> productExceptSelf(vector<int>& nums) {
-    // given nums
-    // get array answer
-    // so that answer[i] = product of all elements of nums
-    // except nums[i]
     int n = nums.size();
     int prod = 1;
-
     vector<int> answer(n);
-    vector<int> indexToLeftProd(n);
-    // map<int, int[2]> indexToRightProduct;
-    // get the left product of each index
-    indexToLeftProd[0] = 1;
 
+    answer[0] = 1;
+    
     for(int i = 1; i < n; i++) {
-        indexToLeftProd[i] = indexToLeftProd[i-1] * nums[i-1];
+        answer[i] = answer[i-1] * nums[i-1];
     }
-
-    answer[n-1] = indexToLeftProd[n-1];
 
     for(int i = n-2; i > -1; i--) {
         prod *= nums[i+1];
-        answer[i] = indexToLeftProd[i]*prod;
+        answer[i] *= prod;
     }
 
     return answer;
 }
-
 
 int main() {
     std::vector<int> ex_nums = {1,2,2,3};
