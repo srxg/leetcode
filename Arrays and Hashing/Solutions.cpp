@@ -121,6 +121,36 @@ std::vector<int> topKFrequent(std::vector<int>& nums, int k) {
 
     return ans;
 }
+
+/**
+ * Product of Array Except Self
+ * Given integer array nums, return array answer
+ * such that answer[i] = product of all element of nums
+ * apart from nums[i]
+*/
+using namespace std;
+vector<int> productExceptionSelf(vector<int>& nums) {
+    int n = nums.size();
+    int prod = 1;
+
+    vector<int> answer(n);
+    // product of an empty set is 1
+    // (left product = 1 for no elements to right of ind 0)
+    answer[0] = 1;
+
+    for(int i = 1; i < n; i++) {
+        answer[i] = answer[i-1] * nums[i-1];
+    }
+
+    for(int i = n-2; i > -1; i--) {
+        prod *= nums[i+1];
+        answer[i] *= prod;
+    }
+
+    return answer;
+}
+
+
 int main() {
     std::vector<int> ex_nums = {1,2,2,3};
     std::cout << containsDuplicate(ex_nums) << std::endl;
